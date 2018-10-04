@@ -5,14 +5,14 @@
     pretrained dlib_face_recognition_resnet_model_v1 model which is freely available from
     the dlib web site.  This model has a 99.38% accuracy on the standard LFW face
     recognition benchmark, which is comparable to other state-of-the-art methods for face
-    recognition as of February 2017. 
-    
+    recognition as of February 2017.
+
     In this example, we will use dlib to do face clustering.  Included in the examples
     folder is an image, bald_guys.jpg, which contains a bunch of photos of action movie
     stars Vin Diesel, The Rock, Jason Statham, and Bruce Willis.   We will use dlib to
     automatically find their faces in the image and then to automatically determine how
     many people there are (4 in this case) as well as which faces belong to each person.
-    
+
     Finally, this example uses a network with the loss_metric loss.  Therefore, if you want
     to learn how to train your own models, or to get a general introduction to this loss
     layer, you should read the dnn_metric_learning_ex.cpp and
@@ -20,7 +20,7 @@
 */
 
 #include <dlib/dnn.h>
-#include <dlib/gui_widgets.h>
+//#include <dlib/gui_widgets.h>
 #include <dlib/clustering.h>
 #include <dlib/string.h>
 #include <dlib/image_io.h>
@@ -48,7 +48,7 @@ using residual = add_prev1<block<N,BN,1,tag1<SUBNET>>>;
 template <template <int,template<typename>class,int,typename> class block, int N, template<typename>class BN, typename SUBNET>
 using residual_down = add_prev2<avg_pool<2,2,2,2,skip1<tag2<block<N,BN,2,tag1<SUBNET>>>>>>;
 
-template <int N, template <typename> class BN, int stride, typename SUBNET> 
+template <int N, template <typename> class BN, int stride, typename SUBNET>
 using block  = BN<con<N,3,3,1,1,relu<BN<con<N,3,3,stride,stride,SUBNET>>>>>;
 
 template <int N, typename SUBNET> using ares      = relu<residual<block,N,affine,SUBNET>>;
@@ -106,7 +106,7 @@ int main(int argc, char** argv) try
     matrix<rgb_pixel> img;
     load_image(img, argv[1]);
     // Display the raw image on the screen
-    image_window win(img); 
+    //image_window win(img);
 
     // Run the face detector on the image of our action heroes, and for each face extract a
     // copy that has been normalized to 150x150 pixels in size and appropriately rotated
@@ -120,7 +120,7 @@ int main(int argc, char** argv) try
         faces.push_back(move(face_chip));
         // Also put some boxes on the faces so we can see that the detector is finding
         // them.
-        win.add_overlay(face);
+        //win.add_overlay(face);
     }
 
     if (faces.size() == 0)
@@ -132,7 +132,7 @@ int main(int argc, char** argv) try
     // This call asks the DNN to convert each face image in faces into a 128D vector.
     // In this 128D vector space, images from the same person will be close to each other
     // but vectors from different people will be far apart.  So we can use these vectors to
-    // identify if a pair of images are from the same person or from different people.  
+    // identify if a pair of images are from the same person or from different people.
     std::vector<matrix<float,0,1>> face_descriptors = net(faces);
 
 
@@ -159,8 +159,8 @@ int main(int argc, char** argv) try
 
 
     // Now let's display the face clustering results on the screen.  You will see that it
-    // correctly grouped all the faces. 
-    std::vector<image_window> win_clusters(num_clusters);
+    // correctly grouped all the faces.
+    //std::vector<image_window> win_clusters(num_clusters);
     for (size_t cluster_id = 0; cluster_id < num_clusters; ++cluster_id)
     {
         std::vector<matrix<rgb_pixel>> temp;
@@ -169,14 +169,13 @@ int main(int argc, char** argv) try
             if (cluster_id == labels[j])
                 temp.push_back(faces[j]);
         }
-        win_clusters[cluster_id].set_title("face cluster " + cast_to_string(cluster_id));
-        win_clusters[cluster_id].set_image(tile_images(temp));
+        cout << "face cluster : " << cast_to_string(cluster_id) << endl;
+        //win_clusters[cluster_id].set_title("face cluster " + cast_to_string(cluster_id));
+        //win_clusters[cluster_id].set_image(tile_images(temp));
     }
 
 
-
-
-    // Finally, let's print one of the face descriptors to the screen.  
+    // Finally, let's print one of the face descriptors to the screen.
     cout << "face descriptor for one face: " << trans(face_descriptors[0]) << endl;
 
     // It should also be noted that face recognition accuracy can be improved if jittering
@@ -209,7 +208,7 @@ std::vector<matrix<rgb_pixel>> jitter_image(
     // mirrored left to right.
     thread_local dlib::rand rnd;
 
-    std::vector<matrix<rgb_pixel>> crops; 
+    std::vector<matrix<rgb_pixel>> crops;
     for (int i = 0; i < 100; ++i)
         crops.push_back(jitter_image(img,rnd));
 
@@ -217,4 +216,3 @@ std::vector<matrix<rgb_pixel>> jitter_image(
 }
 
 // ----------------------------------------------------------------------------------------
-

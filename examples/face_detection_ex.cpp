@@ -10,7 +10,7 @@
     this program on them and see the detections by executing the following command:
         ./face_detection_ex faces/*.jpg
 
-    
+
     This face detector is made using the now classic Histogram of Oriented
     Gradients (HOG) feature combined with a linear classifier, an image pyramid,
     and sliding window detection scheme.  This type of object detector is fairly
@@ -18,7 +18,7 @@
     addition to human faces.  Therefore, if you are interested in making your
     own object detectors then read the fhog_object_detector_ex.cpp example
     program.  It shows how to use the machine learning tools which were used to
-    create dlib's face detector. 
+    create dlib's face detector.
 
 
     Finally, note that the face detector is fastest when compiled with at least
@@ -33,12 +33,12 @@
     Studio, or the Intel compiler.  If you are using another compiler then you
     need to consult your compiler's manual to determine how to enable these
     instructions.  Note that AVX is the fastest but requires a CPU from at least
-    2011.  SSE4 is the next fastest and is supported by most current machines.  
+    2011.  SSE4 is the next fastest and is supported by most current machines.
 */
 
 
 #include <dlib/image_processing/frontal_face_detector.h>
-#include <dlib/gui_widgets.h>
+//#include <dlib/gui_widgets.h>
 #include <dlib/image_io.h>
 #include <iostream>
 
@@ -48,7 +48,7 @@ using namespace std;
 // ----------------------------------------------------------------------------------------
 
 int main(int argc, char** argv)
-{  
+{
     try
     {
         if (argc == 1)
@@ -58,7 +58,7 @@ int main(int argc, char** argv)
         }
 
         frontal_face_detector detector = get_frontal_face_detector();
-        image_window win;
+        //image_window win;
 
         // Loop over all the images provided on the command line.
         for (int i = 1; i < argc; ++i)
@@ -84,9 +84,18 @@ int main(int argc, char** argv)
             cout << "Number of faces detected: " << dets.size() << endl;
             // Now we show the image on the screen and the face detections as
             // red overlay boxes.
-            win.clear_overlay();
-            win.set_image(img);
-            win.add_overlay(dets, rgb_pixel(255,0,0));
+            //win.clear_overlay();
+            //win.set_image(img);
+            //win.add_overlay(dets, rgb_pixel(255,0,0));
+
+            for (int i=0; i<dets.size(); i++)
+            {
+                cout << "Find : " << i << endl;
+                cout << "Left : " << dets[i].left() << endl;
+                cout << "Right : " << dets[i].right() << endl;
+                cout << "Top : " << dets[i].top() << endl;
+                cout << "Bootom : " << dets[i].bottom() << endl;
+            }
 
             cout << "Hit enter to process the next image..." << endl;
             cin.get();
@@ -100,4 +109,3 @@ int main(int argc, char** argv)
 }
 
 // ----------------------------------------------------------------------------------------
-
