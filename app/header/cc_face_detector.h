@@ -10,5 +10,15 @@
 
 using namespace std;
 
+class CCFaceDetector
+{
+public:
+    explicit CCFaceDetector();
+    ~CCFaceDetector();
+
+    void test();
+private:
+
+};
 
 #endif

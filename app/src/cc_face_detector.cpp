@@ -1,11 +1,19 @@
 #include "cc_face_detector.h"
 #include "cc_common.h"
 
-
-int main(int argc, char * argv[])
+CCFaceDetector::CCFaceDetector()
 {
+    printf("CCFaceDetector printf 12312213131231\n");
+}
 
-    CC_PRINT("Hello code cube \n");
+CCFaceDetector::~CCFaceDetector()
+{
+    printf("CCFaceDetector destroy in\n");
+}
 
-    return 0;
+void CCFaceDetector::test()
+{
+    printf("CCFaceDetector test in\n");
+
+    return;
 }

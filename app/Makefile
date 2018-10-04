@@ -18,6 +18,7 @@ ifeq ($(DEBUG), 1)
 IF_DEBUG=-O0 -g
 endif
 
+LDFLAGS+=-L.
 DETECTOR_CPPFLAGS+=$(IF_DEBUG)
 DETECTOR_CPPFLAGS+=-fPIC
 DECECTOR_SRCS := \
@@ -50,9 +51,9 @@ $(DECECTOR_APP): $(DECECTOR_OBJS)
 	@echo "Linking: $@"
 	$(CPP) $(COMMON) -o $@ $(DECECTOR_OBJS) $(DETECTOR_CPPFLAGS)
 
-$(DEMO_APP): $(DEMO_OBJS)
+$(DEMO_APP): $(DEMO_OBJS) $(DETECTOR_SLIB)
 	@echo "Linking: $@"
-	$(CPP) $(COMMON) -o $@ $(DEMO_OBJS) $(DETECTOR_CPPFLAGS)
+	$(CPP) $(COMMON) -o $@ $(DEMO_OBJS) $(DETECTOR_CPPFLAGS) $(LDFLAGS) $(DETECTOR_SLIB)
 
 # demo.o: demo.cpp
 # 	$(CPP) $(COMMON) -c demo.cpp
@@ -61,3 +62,6 @@ $(DEMO_APP): $(DEMO_OBJS)
 
 clean:
 	@rm -rf $(DECECTOR_APP) $(DECECTOR_OBJS) $(DETECTOR_SLIB) $(DETECTOR_ALIB) $(DEMO_APP) $(DEMO_OBJS)
+
+clean_demo:
+	@rm -rf $(DEMO_APP) $(DEMO_OBJS)
