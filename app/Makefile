@@ -8,29 +8,29 @@ CPP=g++
 NVCC=nvcc
 AR=ar
 
+COMMON= -I./header
 
 ifeq ($(DEBUG), 1)
-DETECTOR_OPTS=-O0 -g
+IF_DEBUG=-O0 -g
 endif
 
-DETECTOR_CPPFLAGS+=$(DETECTOR_OPTS)
+DETECTOR_CPPFLAGS+=$(IF_DEBUG)
 
 DECECTOR_SRCS := \
-	cc_face_detector.cpp
+	$(wildcard src/*.cpp)
 
-DECECTOR_OBJS := $(DECECTOR_SRCS:.cpp=.o)
-
+DECECTOR_OBJS = $(DECECTOR_SRCS:.cpp=.o)
 
 
 detector: $(DECECTOR_APP)
 
-%.o: %.cpp cc_common.h
+%.o: %.cpp
 	@echo "Compiling: $<"
-	$(CPP) $(DETECTOR_CPPFLAGS) -c $< -o $@
+	$(CPP) $(COMMON) $(DETECTOR_CPPFLAGS) -c $< -o $@
 
 $(DECECTOR_APP): $(DECECTOR_OBJS)
 	@echo "Linking: $@"
-	$(CPP) -o $@ $(DECECTOR_OBJS) $(DETECTOR_CPPFLAGS)
+	$(CPP) $(COMMON) -o $@ $(DECECTOR_OBJS) $(DETECTOR_CPPFLAGS)
 
 clean:
 	@rm -rf $(DECECTOR_APP) $(DECECTOR_OBJS)
