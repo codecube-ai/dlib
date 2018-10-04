@@ -5,7 +5,7 @@
 int main(int argc, char * argv[])
 {
 
-    CC_PRINT("Hell0 code cube");
+    CC_PRINT("Hello code cube \n");
 
     return 0;
 }

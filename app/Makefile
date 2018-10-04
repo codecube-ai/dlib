@@ -24,13 +24,13 @@ DECECTOR_OBJS := $(DECECTOR_SRCS:.cpp=.o)
 
 detector: $(DECECTOR_APP)
 
-%.o: %.cpp
+%.o: %.cpp cc_common.h
 	@echo "Compiling: $<"
 	$(CPP) $(DETECTOR_CPPFLAGS) -c $< -o $@
 
-$(DECECTOR_APP): $(DECECTOR_SRCS)
+$(DECECTOR_APP): $(DECECTOR_OBJS)
 	@echo "Linking: $@"
 	$(CPP) -o $@ $(DECECTOR_OBJS) $(DETECTOR_CPPFLAGS)
 
 clean:
-	@rm -rf $(DECECTOR_APP)
+	@rm -rf $(DECECTOR_APP) $(DECECTOR_OBJS)
