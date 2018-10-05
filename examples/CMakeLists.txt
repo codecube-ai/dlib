@@ -253,24 +253,26 @@ include_directories(../app/header/)
 set(LIBRARY_OUTPUT_PATH ../../app/lib/)
 set(EXECUTABLE_OUTPUT_PATH ../../app/bin/)
 
-add_library(ccdetectorso SHARED ${srcs})
+# add_library(ccdetectorso SHARED ${srcs})
 add_library(ccdetectora STATIC ${srcs})
 
 # set_target_properties(ccdetector_static PROPERTIES OUTPUT_NAME "ccdetector")
 # set_target_properties(ccdetector PROPERTIES CLEAN_DIRECT_OUTPUT 1)
 # set_target_properties(ccdetector_static PROPERTIES CLEAN_DIRECT_OUTPUT 1)
 
-set_target_properties(ccdetectorso PROPERTIES VERSION 1.0 SOVERSION 1)
+# set_target_properties(ccdetectorso PROPERTIES VERSION 1.0 SOVERSION 1)
 set_target_properties(ccdetectora PROPERTIES VERSION 1.0 SOVERSION 1)
 
-target_link_libraries(ccdetectorso dlib::dlib)
+# target_link_libraries(ccdetectorso dlib::dlib)
 target_link_libraries(ccdetectora dlib::dlib)
 
 add_executable(cc_demo ${demo_srcs})
-find_library(LIBCCDETECTORSO_PATH ccdetectorso ../app/lib/)
-IF(NOT LIBCCDETECTORSO_PATH)
-MESSAGE(FATAL_ERROR "libccdetectorso not found")
-ENDIF(NOT LIBCCDETECTORSO_PATH)
+find_library(LIBCCDETECTOR_PATH ccdetectora ../app/lib/)
+IF(NOT LIBCCDETECTOR_PATH)
+MESSAGE(FATAL_ERROR "libccdetectora not found")
+ENDIF(NOT LIBCCDETECTOR_PATH)
 
-MESSAGE(STATUS ${LIBCCDETECTORSO_PATH} " found")
-target_link_libraries(cc_demo ${LIBCCDETECTORSO_PATH})
+MESSAGE(STATUS ${LIBCCDETECTOR_PATH} " found")
+target_link_libraries(cc_demo ${LIBCCDETECTOR_PATH} dlib::dlib)
+
+add_dependencies(cc_demo ccdetectora)

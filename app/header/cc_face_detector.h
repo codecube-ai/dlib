@@ -16,7 +16,7 @@ public:
     explicit CCFaceDetector();
     ~CCFaceDetector();
 
-    void test();
+    int test();
 private:
 
 };
