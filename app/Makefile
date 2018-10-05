@@ -10,7 +10,7 @@ NVCC=nvcc
 AR=ar
 ARFLAGS=rcs
 
-COMMON= -I./header
+COMMON= -I./header/
 DETECTOR_ALIB=libccdetector.a
 DETECTOR_SLIB=libccdetector.so
 
@@ -21,6 +21,7 @@ endif
 LDFLAGS+=-L.
 DETECTOR_CPPFLAGS+=$(IF_DEBUG)
 DETECTOR_CPPFLAGS+=-fPIC
+DETECTOR_CPPFLAGS+=-std=c++11
 DECECTOR_SRCS := \
 	$(wildcard src/*.cpp)
 DEMO_SRCS := \
@@ -54,9 +55,6 @@ $(DECECTOR_APP): $(DECECTOR_OBJS)
 $(DEMO_APP): $(DEMO_OBJS) $(DETECTOR_SLIB)
 	@echo "Linking: $@"
 	$(CPP) $(COMMON) -o $@ $(DEMO_OBJS) $(DETECTOR_CPPFLAGS) $(LDFLAGS) $(DETECTOR_SLIB)
-
-# demo.o: demo.cpp
-# 	$(CPP) $(COMMON) -c demo.cpp
 
 .PHONY: clean
 
