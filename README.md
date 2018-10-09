@@ -1,3 +1,17 @@
+## For test add by Symond
+```bash
+cd app/camera/
+make
+cd ..
+mkdir build
+cd build
+cmake ..
+cmake --build . --config Release
+cd ../bin/
+./cc_demo
+```
+
+
 # dlib C++ library [![Travis Status](https://travis-ci.org/davisking/dlib.svg?branch=master)](https://travis-ci.org/davisking/dlib)
 
 Dlib is a modern C++ toolkit containing machine learning algorithms and tools for creating complex software in C++ to solve real world problems. See [http://dlib.net](http://dlib.net) for the main project documentation and API reference.
@@ -23,7 +37,7 @@ Doing so will make some things run faster.
 
 Finally, Visual Studio users should usually do everything in 64bit mode.  By default Visual Studio is 32bit, both in its outputs and its own execution, so you have to explicitly tell it to use 64bits.  Since it's not the 1990s anymore you probably want to use 64bits.  Do that with a cmake invocation like this:
 ```bash
-cmake .. -G "Visual Studio 14 2015 Win64" -T host=x64 
+cmake .. -G "Visual Studio 14 2015 Win64" -T host=x64
 ```
 
 ## Compiling your own C++ programs that use dlib
@@ -59,4 +73,3 @@ This library is licensed under the Boost Software License, which can be found in
 ## dlib sponsors
 
 This research is based in part upon work supported by the Office of the Director of National Intelligence (ODNI), Intelligence Advanced Research Projects Activity (IARPA) under contract number 2014-14071600010. The views and conclusions contained herein are those of the authors and should not be interpreted as necessarily representing the official policies or endorsements, either expressed or implied, of ODNI, IARPA, or the U.S. Government.
-

@@ -1,23 +1,5 @@
-// The contents of this file are in the public domain. See LICENSE_FOR_EXAMPLE_PROGRAMS.txt
-/*
-    This is an example illustrating the use of the deep learning tools from the dlib C++
-    Library.  In it, we will show how to do face recognition.  This example uses the
-    pretrained dlib_face_recognition_resnet_model_v1 model which is freely available from
-    the dlib web site.  This model has a 99.38% accuracy on the standard LFW face
-    recognition benchmark, which is comparable to other state-of-the-art methods for face
-    recognition as of February 2017.
-
-    In this example, we will use dlib to do face clustering.  Included in the examples
-    folder is an image, bald_guys.jpg, which contains a bunch of photos of action movie
-    stars Vin Diesel, The Rock, Jason Statham, and Bruce Willis.   We will use dlib to
-    automatically find their faces in the image and then to automatically determine how
-    many people there are (4 in this case) as well as which faces belong to each person.
-
-    Finally, this example uses a network with the loss_metric loss.  Therefore, if you want
-    to learn how to train your own models, or to get a general introduction to this loss
-    layer, you should read the dnn_metric_learning_ex.cpp and
-    dnn_metric_learning_on_images_ex.cpp examples.
-*/
+#include "cc_face_detector.h"
+#include "cc_common.h"
 
 #include <dlib/dnn.h>
 //#include <dlib/gui_widgets.h>
@@ -70,28 +52,21 @@ using anet_type = loss_metric<fc_no_bias<128,avg_pool_everything<
                             input_rgb_image_sized<150>
                             >>>>>>>>>>>>;
 
-// ----------------------------------------------------------------------------------------
+std::vector<matrix<rgb_pixel>> jitter_image(const matrix<rgb_pixel>& img);
 
-std::vector<matrix<rgb_pixel>> jitter_image(
-    const matrix<rgb_pixel>& img
-);
-
-// ----------------------------------------------------------------------------------------
-
-int main(int argc, char** argv) try
+CCFaceDetector::CCFaceDetector()
 {
-    if (argc != 2)
-    {
-        cout << "Run this example by invoking it like this: " << endl;
-        cout << "   ./dnn_face_recognition_ex faces/bald_guys.jpg" << endl;
-        cout << endl;
-        cout << "You will also need to get the face landmarking model file as well as " << endl;
-        cout << "the face recognition model file.  Download and then decompress these files from: " << endl;
-        cout << "http://dlib.net/files/shape_predictor_5_face_landmarks.dat.bz2" << endl;
-        cout << "http://dlib.net/files/dlib_face_recognition_resnet_model_v1.dat.bz2" << endl;
-        cout << endl;
-        return 1;
-    }
+    printf("CCFaceDetector printf 123122131312131\n");
+}
+
+CCFaceDetector::~CCFaceDetector()
+{
+    printf("CCFaceDetector destroy in\n");
+}
+
+int CCFaceDetector::test()
+{
+    printf("CCFaceDetector test in\n");
 
     // The first thing we are going to do is load all our models.  First, since we need to
     // find faces in the image we will need a face detector:
@@ -104,7 +79,7 @@ int main(int argc, char** argv) try
     deserialize("dlib_face_recognition_resnet_model_v1.dat") >> net;
 
     matrix<rgb_pixel> img;
-    load_image(img, argv[1]);
+    load_image(img, "bald_guys_1.jpg");
     // Display the raw image on the screen
     //image_window win(img);
 
@@ -158,61 +133,7 @@ int main(int argc, char** argv) try
     cout << "number of people found in the image: "<< num_clusters << endl;
 
 
-    // Now let's display the face clustering results on the screen.  You will see that it
-    // correctly grouped all the faces.
-    //std::vector<image_window> win_clusters(num_clusters);
-    for (size_t cluster_id = 0; cluster_id < num_clusters; ++cluster_id)
-    {
-        std::vector<matrix<rgb_pixel>> temp;
-        for (size_t j = 0; j < labels.size(); ++j)
-        {
-            if (cluster_id == labels[j])
-                temp.push_back(faces[j]);
-        }
-        cout << "face cluster : " << cast_to_string(cluster_id) << endl;
-        //win_clusters[cluster_id].set_title("face cluster " + cast_to_string(cluster_id));
-        //win_clusters[cluster_id].set_image(tile_images(temp));
-    }
+    printf("CCFaceDetector run after get_frontal_face_detector11\n");
 
-
-    // Finally, let's print one of the face descriptors to the screen.
-    cout << "face descriptor for one face: " << trans(face_descriptors[0]) << endl;
-
-    // It should also be noted that face recognition accuracy can be improved if jittering
-    // is used when creating face descriptors.  In particular, to get 99.38% on the LFW
-    // benchmark you need to use the jitter_image() routine to compute the descriptors,
-    // like so:
-    matrix<float,0,1> face_descriptor = mean(mat(net(jitter_image(faces[0]))));
-    cout << "jittered face descriptor for one face: " << trans(face_descriptor) << endl;
-    // If you use the model without jittering, as we did when clustering the bald guys, it
-    // gets an accuracy of 99.13% on the LFW benchmark.  So jittering makes the whole
-    // procedure a little more accurate but makes face descriptor calculation slower.
-
-
-    cout << "hit enter to terminate" << endl;
-    cin.get();
+    return 0;
 }
-catch (std::exception& e)
-{
-    cout << e.what() << endl;
-}
-
-// ----------------------------------------------------------------------------------------
-
-std::vector<matrix<rgb_pixel>> jitter_image(
-    const matrix<rgb_pixel>& img
-)
-{
-    // All this function does is make 100 copies of img, all slightly jittered by being
-    // zoomed, rotated, and translated a little bit differently. They are also randomly
-    // mirrored left to right.
-    thread_local dlib::rand rnd;
-
-    std::vector<matrix<rgb_pixel>> crops;
-    for (int i = 0; i < 100; ++i)
-        crops.push_back(jitter_image(img,rnd));
-
-    return crops;
-}
-
-// ----------------------------------------------------------------------------------------

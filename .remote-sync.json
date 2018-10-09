@@ -1,0 +1,15 @@
+{
+  "transport": "scp",
+  "hostname": "192.168.11.13",
+  "port": 22,
+  "username": "nvidia",
+  "password": "nvidia",
+  "target": "/home/nvidia/dlib",
+  "ignore": [
+    ".remote-sync.json",
+    ".git/**"
+  ],
+  "watch":[
+    "/"
+  ]
+}
