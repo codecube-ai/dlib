@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.12)
-# Every project needs a name.  We call this the "examples" project.
+# Every project needs a name.  
 project(cc_detector)
 
 add_subdirectory(../../dlib dlib_build)

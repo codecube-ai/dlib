@@ -1,7 +1,27 @@
 #include "jetson_stream_manager.h"
 
-JetsonStreamManager::JetsonStreamManager() : BaseStreamManager(),
-m_preview_size((640, 480)), m_capture_size((1920, 1080)), m_dmabuf(-1)
+#include "Error.h"
+#include "Thread.h"
+
+#include <Argus/Argus.h>
+#include <EGLStream/EGLStream.h>
+#include <EGLStream/NV/ImageNativeBuffer.h>
+
+#include <NvEglRenderer.h>
+#include <NvJpegEncoder.h>
+
+using namespace Argus;
+using namespace EGLStream;
+
+int m_dmabuf = -1;
+Size2D<uint32_t> m_preview_size(640, 480);
+Size2D<uint32_t> m_capture_size(1920, 1080);
+NvEglRenderer *m_renderer;
+OutputStream* m_stream;
+UniqueObj<FrameConsumer> m_consumer;
+
+
+JetsonStreamManager::JetsonStreamManager() : BaseStreamManager()
 {
     printf("JetsonStreamManager 1111\n");
 }

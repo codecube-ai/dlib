@@ -7,6 +7,7 @@
 
 #include "cc_common.h"
 #include "cc_face_detector.h"
+//#include "jetson_stream_manager.h"
 
 using namespace std;
 
@@ -18,6 +19,12 @@ int main(int argc, char * argv[])
     de->test();
 
     delete de;
+
+    // BaseStreamManager *streamManager = new JetsonStreamManager();
+    //
+    // streamManager->initialize();
+    //
+    // delete streamManager;
 
     return 0;
 }
