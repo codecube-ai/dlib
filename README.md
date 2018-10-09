@@ -1,13 +1,15 @@
 ## For test add by Symond
-1.cd app/camera/
-2.make
-3.cd ..
-4.mkdir build
-5.cd build
-6.cmake ..
-7.cmake --build . --config Release
-8.cd ../bin/
-9../cc_demo
+```bash
+cd app/camera/
+make
+cd ..
+mkdir build
+cd build
+cmake ..
+cmake --build . --config Release
+cd ../bin/
+./cc_demo
+```
 
 
 # dlib C++ library [![Travis Status](https://travis-ci.org/davisking/dlib.svg?branch=master)](https://travis-ci.org/davisking/dlib)
